@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\WpProduct;
 use App\Models\Order;
 use App\Models\Cart;
-use App\Models\CartProduct;
 use App\Models\OrderProduct;
 use DB;
 use Session;
+use App\Helper\General;
 
 class ProductController extends Controller
 {
@@ -33,66 +33,58 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
-            // check duplicate item
-            // $userCarts = Cart::join('cart_products', 'carts.id', '=' , 'cart_products.cart_id')
-            //                     ->where('carts.user_id', Auth::user()->id)
-            //                     ->get();
-
-            // if(count($$userCarts) != 0){
-            //     dd('123');
-            //     foreach($userCarts as $cart){
-            //         dd($cart);
-            //         if($cart->product_id == $productId){
-
-            //         }
-            //     }
-            // }else{
-            //     dd('1');
-                $newCart = Cart::create([
+            if($duplicateItem = Cart::where('user_id', Auth::user()->id)->where('product_id', $productId)->first()){
+                $duplicateItem->increment('quantity');
+            }else{
+                Cart::create([
                     'user_id'   =>  Auth::user()->id,
+                    'product_id'  =>  $productId,
                     'quantity'  =>  1,
                     'session_id'    => Session::getId(),
                 ]);
-    
-                CartProduct::create([
-                    'cart_id'   =>  $newCart->id,
-                    'product_id'  =>  $productId,
-                ]);
-            // }
-            
+            }
+
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollback();
             return redirect( route('home') )->with('error', $ex->getMessage());
         }
 
-        $itemCount = Cart::where('user_id', Auth::user()->id)->count();
-        Session::put('cartCount', $itemCount);
+        Session::put('cartCount', General::get_cart_count());
 
-        return redirect( route('home') )->with('success', 'Item was added to your cart!');
+        return redirect( route('cart') )->with('success', 'Item was added to your cart!');
     }
 
-    public function remove_cart_item(Request $request, $cid){
+    public function remove_cart_item(Request $request){
+        Cart::where('user_id', Auth::user()->id)->where('id', $request->cart_id)->delete();
+
+        return redirect( route('cart') )->with('success', 'Item was removed from your cart!');
 
     }
 
-    public function submit_order(){
-        
+    public function submit_order(Request $request){
+        $userCartItems = Cart::where('user_id', Auth::user()->id)->get();
+        if($userCartItems->count() == 0){
+            return redirect( route('home') )->with('error', 'There are no items in this cart!');
+        }
+
         DB::beginTransaction();
 
         // create order
         try {
             // $duplicateItem = OrderProduct::where('user_id', Auth::user()->id)
-            $createOrder = Order::create([
+            $order = Order::create([
                 'user_id'   =>  Auth::user()->id,
                 'order_status'  =>  2
             ]);
-    
-            OrderProduct::create([
-                'order_id'  =>  $createOrder->id,
-                'product_id'  =>  $productId,
-                'quantity'  =>  1,
-            ]);
+
+            foreach($userCartItems as $item){
+                OrderProduct::create([
+                    'order_id'  =>  $order->id,
+                    'product_id'  =>  $item->product_id,
+                    'quantity'  =>  $item->quantity,
+                ]);
+            }
             
             DB::commit();
         } catch (\Exception $ex) {
@@ -100,7 +92,17 @@ class ProductController extends Controller
             return redirect( route('home') )->with('error', $ex->getMessage());
         }
 
-        $orders = Order::where('user_id', Auth::user()->id)->where('order_status', 2)->count();
-        Session::put('cartCount', $orders);
+        // clear cart after submit order
+        $this->clear_cart();
+        
+        Session::put('cartCount', General::get_cart_count());
+
+        return redirect( route('order.history') )->with('success', 'Your order has been submitted!');
     }
+
+    public function clear_cart(){
+        return Cart::where('user_id', Auth::user()->id)->delete();
+    }
+
+
 }

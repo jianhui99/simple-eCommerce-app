@@ -21,4 +21,6 @@ Route::get('/cart', [App\Http\Controllers\HomeController::class, 'cart'])->middl
 Route::get('/notification', [App\Http\Controllers\HomeController::class, 'notification'])->middleware('auth')->name('notification');
 Route::post('/product/add', [App\Http\Controllers\ProductController::class, 'add_cart'])->name('product.addToCart');
 Route::post('/cart/remove-item', [App\Http\Controllers\ProductController::class, 'remove_cart_item'])->name('cart.removeItem');
+Route::post('/submit/order', [App\Http\Controllers\ProductController::class, 'submit_order'])->name('order.submit');
+Route::get('/order/history', [App\Http\Controllers\HomeController::class, 'order_history'])->middleware('auth')->name('order.history');
 

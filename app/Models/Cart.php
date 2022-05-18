@@ -13,7 +13,7 @@ class Cart extends Model
     protected $table = 'carts';
 
     protected $fillable = [
-        'user_id', 'session_id', 'quantity'
+        'user_id', 'product_id','session_id', 'quantity'
     ];
 
     protected $appends = [
@@ -21,16 +21,10 @@ class Cart extends Model
     ];
 
     public function products() {
-        return $this->hasMany(CartProduct::class, 'cart_id','id');
+        return $this->hasMany(WpProduct::class, 'id','product_id');
     }
 
     public function getProductListAttribute(){
-        $products = $this->products()->get();
-        $data = [];
-        foreach($products as $product){
-            $data['product_info'] = WpProduct::where('id', $product->product_id)->first();
-        }
-
-        return $data;
+        return $this->products()->get();
     }
 }

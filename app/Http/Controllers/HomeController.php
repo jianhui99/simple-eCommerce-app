@@ -43,17 +43,26 @@ class HomeController extends Controller
     }
 
     public function cart(Request $request){
-        $items = Cart::where('user_id', Auth::user()->id)->paginate(WpProduct::$paginate, ['*'], 'product');
-        Session::put('cartCount', $items->count());
+        // $items = Cart::where('user_id', Auth::user()->id)->paginate(2, ['*'], 'product');
+        $items = Cart::where('user_id', Auth::user()->id)->get();
+        $total_price = 0;
+        foreach($items as $item){
+            $total_price += $item->product_list[0]->regular_price * $item->quantity;
+        }
 
-        return view('cart.cart', compact('items'));
+        Session::put('cartCount', General::get_cart_count());
+        
+        return view('cart.cart', compact('items', 'total_price'));
     }
 
     public function notification(Request $request){
         return view('notification');
     }
 
-    public function loading(Request $request){
-        return view('loading');
+    public function order_history(Request $request){
+        $items = Order::where('user_id', Auth::user()->id)->paginate(WpProduct::$paginate, ['*'], 'order_history');
+
+        return view('order.history', compact('items'));
     }
+    
 }
