@@ -53,9 +53,7 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            </li>
+                            @include('cart.cart-icon')
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('notification') }}"><i class="fa fa-bell" aria-hidden="true"></i></a>
@@ -83,6 +81,8 @@
                 </div>
             </div>
         </nav>
+        
+        @include('layouts.notification')
 
         <main class="py-4">
             @yield('content')

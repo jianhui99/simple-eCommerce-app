@@ -7,6 +7,11 @@ use App\Helper\General;
 use GuzzleHttp\Client;
 use App\Models\WpProduct;
 use App\Models\WpProductImage;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Cart;
+use Session;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -29,7 +34,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         try{
-            $products = WpProduct::where('status', 1)->paginate(10, ['*'], 'product');
+            $products = WpProduct::where('status', 1)->paginate(WpProduct::$paginate, ['*'], 'product');
         }catch (\Exception $e){
             
         }
@@ -38,7 +43,10 @@ class HomeController extends Controller
     }
 
     public function cart(Request $request){
-        return view('cart');
+        $items = Cart::where('user_id', Auth::user()->id)->paginate(WpProduct::$paginate, ['*'], 'product');
+        Session::put('cartCount', $items->count());
+
+        return view('cart.cart', compact('items'));
     }
 
     public function notification(Request $request){

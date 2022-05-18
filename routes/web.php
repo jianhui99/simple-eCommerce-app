@@ -20,4 +20,5 @@ Route::get('/loading', [App\Http\Controllers\HomeController::class, 'loading'])-
 Route::get('/cart', [App\Http\Controllers\HomeController::class, 'cart'])->middleware('auth')->name('cart');
 Route::get('/notification', [App\Http\Controllers\HomeController::class, 'notification'])->middleware('auth')->name('notification');
 Route::post('/product/add', [App\Http\Controllers\ProductController::class, 'add_cart'])->name('product.addToCart');
+Route::post('/cart/remove-item', [App\Http\Controllers\ProductController::class, 'remove_cart_item'])->name('cart.removeItem');
 

@@ -24,7 +24,6 @@
                             <form action="{{route('product.addToCart')}}" method="post">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
-                                <input type="hidden" name="user_id" value="{{auth()->user() ? auth()->user()->id : 0}}">
                                 <div class="d-flex flex-column mt-4">
                                     <div class="d-flex flex-column mt-4">
                                         <button class="btn btn-primary btn-sm" type="submit" @if(!$product->in_stock) disabled @else @endif>Add to Cart</button>

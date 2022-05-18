@@ -13,6 +13,8 @@ class WpProduct extends Model
 
     protected $table = 'products';
 
+    public static $paginate = 10;
+
     public function getCreatedAtAttribute($val)
     {
         return date('Y-m-d H:i:s', strtotime($val));
