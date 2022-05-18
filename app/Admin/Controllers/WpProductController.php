@@ -31,8 +31,8 @@ class WpProductController extends AdminController
         $grid->column('wp_product_id', __('Product Id'));
         $grid->column('product_name', __('Product name'));
         $grid->column('images', __('Image'))->display(function ($imgs){
-            return $imgs;
-        });
+            return isset($imgs[0]['src']) ? $imgs[0]['src'] : '';
+        })->image();
         $grid->column('sku', __('Sku'))->display(function ($sku){
             return empty($sku) ? '-' : $sku;
         });
@@ -40,7 +40,6 @@ class WpProductController extends AdminController
         $grid->column('in_stock', __('In stock'))->using([1=>'In stock', 0=>'Out of stock']);
         $grid->column('status', __('Status'))->using([1=>'Active', 0=>'Inactive']);
         $grid->column('created_at', __('Created at'));
-        // $grid->column('updated_at', __('Updated at'));
 
         $grid->disableFilter();
         // $grid->disableActions();
