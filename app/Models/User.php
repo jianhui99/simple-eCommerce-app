@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getCreatedAtAttribute($val)
+    {
+        return date('Y-m-d H:i:s', strtotime($val));
+    }
+
+    public function getUpdatedAtAttribute($val)
+    {
+        return date('Y-m-d H:i:s', strtotime($val));
+    }
 }

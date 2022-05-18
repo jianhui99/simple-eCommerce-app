@@ -2,30 +2,16 @@
 This is a simple catalogue that demonstrates the understanding of querying from a RESTful API.
 
 
-## Set Up Project
+## Installation
 
-Clone project
-```bash
-clone the project to your local. 
-PS:you need a LAMP environment to set up this project, example: XAMPP, WAMP or Laragon
-```
-
-Generate APP_KEY
-```bash
-php artisan key:generate 
-```
-
-Set up .env file
-```bash
-copy and paste the .env.example and rename to .env, and rename the DB connection to your local db credentials
-```
-
-Migrate database
-```baash
-php artisan migrate
-```
-
-Run project
-```baash
-php artisan serve
-```
+1. Clone the repo and `cd` into it
+1. `composer install`
+1. Rename or copy `.env.example` file to `.env`
+1. `php artisan key:generate`
+1. Set your database credentials in your `.env` file
+1. `php artisan migrate`
+1. `npm install`
+1. `npm run dev`
+1. `php artisan serve`. This will migrate the database
+1. Visit `localhost:8000` in your browser
+2. Visit `/admin` if you want to access the laravel admin backend. Username: admin, Password: admin.
