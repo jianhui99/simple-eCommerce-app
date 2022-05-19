@@ -36,12 +36,11 @@ class WpProductController extends AdminController
         $grid->column('sku', __('Sku'))->display(function ($sku){
             return empty($sku) ? '-' : $sku;
         });
-        $grid->column('regular_price', __('Regular price'));
+        $grid->column('regular_price', __('Regular price (RM)'));
         $grid->column('in_stock', __('In stock'))->using([1=>'In stock', 0=>'Out of stock']);
         $grid->column('status', __('Status'))->using([1=>'Active', 0=>'Inactive']);
         $grid->column('created_at', __('Created at'));
 
-        $grid->disableFilter();
         // $grid->disableActions();
         $grid->disableCreateButton();
         $grid->disableRowSelector();
@@ -55,6 +54,16 @@ class WpProductController extends AdminController
 
         $grid->tools(function ($tools) {
             $tools->append(new SyncWpProducts());
+        });
+
+        $grid->filter(function($filter){
+            $filter->like('wp_product_id', 'Wp Product ID');
+            $filter->like('product_name', 'Product Name');
+            $filter->like('sku', 'SKU');
+            $filter->like('regular_price', 'Regular Price');
+            $filter->equal('in_stock', 'Stock')->select([1=>'In stock', 0=>'Out of stock']);
+            $filter->equal('status', 'Status')->select([1=>'Active', 0=>'Inactive']);
+            $filter->between('created_at', 'Created at')->date();
         });
 
         return $grid;

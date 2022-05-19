@@ -1,4 +1,5 @@
 <div>
+    <br>
     <button id="SyncWpProductBtn" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="right" title="Synchronize from Word Press">Synchronize Products</button>&nbsp;&nbsp;&nbsp;<span id="progressText" style="display: none;">System is synchronizing products from WordPress...</span>
 </div>
 

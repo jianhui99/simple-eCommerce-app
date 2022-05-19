@@ -51,4 +51,14 @@ class Order extends Model
         3   =>  'info',
         9   =>  'danger',
     ];
+    
+    public function getCreatedAtAttribute($val)
+    {
+        return date('Y-m-d H:i:s', strtotime($val));
+    }
+
+    public function getUpdatedAtAttribute($val)
+    {
+        return date('Y-m-d H:i:s', strtotime($val));
+    }
 }

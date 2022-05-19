@@ -17,6 +17,7 @@ Route::group([
     $router->resources([
         'wp-products'   =>  WpProductController::class,
         'wp-product-images'   =>  WpProductImageController::class,
+        'order'   =>  OrderController::class,
     ]);
 
 });
