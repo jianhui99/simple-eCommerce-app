@@ -33,9 +33,10 @@
                       <span class="badge bg-{{ \App\Models\Order::$code_to_color[$item->order_status] }}">{{ \App\Models\Order::$code_to_status[$item->order_status] }}</span>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <form action="{{ route('cart.removeItem') }}" method="post">
+                      <form action="{{ route('order.remove') }}" method="post">
                         @csrf
-                        <input type="hidden" name="cart_id" id="cart_id" value="{{ $item->id }}">
+                        <input type="hidden" name="order_id" id="order_id" value="{{ $item->id }}">
+                        <input type="hidden" name="product_id" id="product_id" value="{{ $list['product_info']->id }}">
                         @if($item->order_status == 1)
                           <button type="submit" class="btn btn-success" disabled><i class="fa fa-check fa-lg"></i></button>
                         @else 

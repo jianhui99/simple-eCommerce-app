@@ -59,7 +59,6 @@ class ProductController extends Controller
         Cart::where('user_id', Auth::user()->id)->where('id', $request->cart_id)->delete();
 
         return redirect( route('cart') )->with('success', 'Item was removed from your cart!');
-
     }
 
     public function submit_order(Request $request){
@@ -104,5 +103,26 @@ class ProductController extends Controller
         return Cart::where('user_id', Auth::user()->id)->delete();
     }
 
+    public function remove_order_item(Request $request){
+        $orderId = $request->order_id;
+        $productId = $request->product_id;
 
+        DB::beginTransaction();
+        try {
+            // delete order product
+            OrderProduct::where('order_id', $orderId)->where('product_id', $productId)->delete();
+
+            // if dont have order product, remove the order 
+            if(!$order = OrderProduct::where('order_id', $orderId)->first()){
+                Order::where('id', $orderId)->delete();
+            }
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+            return redirect( route('home') )->with('error', $ex->getMessage());
+        }
+
+        return redirect( route('order.history') )->with('success', 'Your order status has been updated!');
+    }
 }
