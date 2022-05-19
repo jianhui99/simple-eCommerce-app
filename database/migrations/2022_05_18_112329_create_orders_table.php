@@ -16,7 +16,6 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('order_status')->comment("0=fail,1=complete,2=pending,3=processing,9=cancel")->default(2);
             $table->timestamps();
         });
