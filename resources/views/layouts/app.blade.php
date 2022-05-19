@@ -63,7 +63,11 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('order.history') }}">
                                         Order History
-                                        <span class="badge bg-danger">99+</span>
+                                        <span class="badge bg-danger">
+                                            @if(Session::get('orderStatus') == Auth::user()->id)
+                                                New
+                                            @endif
+                                        </span>
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"

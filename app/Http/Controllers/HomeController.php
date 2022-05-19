@@ -35,11 +35,15 @@ class HomeController extends Controller
     {
         try{
             $products = WpProduct::where('status', 1)->paginate(WpProduct::$paginate, ['*'], 'product');
-        }catch (\Exception $e){
-            
-        }
 
-        return view('home', compact('products'));
+            return view('home', compact('products'));
+        }catch (\Exception $ex){
+            return redirect( route('home') )->with('error', $ex->getMessage());
+        }
+    }
+
+    public function debug(Request $request){
+        return view('debug');
     }
 
     public function cart(Request $request){
@@ -62,6 +66,7 @@ class HomeController extends Controller
     public function order_history(Request $request){
         $items = Order::where('user_id', Auth::user()->id)->paginate(WpProduct::$paginate, ['*'], 'order_history');
 
+        Session::forget('orderStatus');
         return view('order.history', compact('items'));
     }
     

@@ -9,6 +9,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Session;
 
 class OrderController extends AdminController
 {
@@ -70,8 +71,23 @@ class OrderController extends AdminController
         $show = new Show(Order::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('user_id', __('User id'));
-        $show->field('order_status', __('Order status'));
+        $show->field('user_id', __('User id'))->as(function ($uid){
+            return User::where('id', $uid)->pluck('name')->first();
+        });
+        $show->field('order_status', __('Order status'))->as(function ($status){
+            return Order::$code_to_status[$status];
+        });
+        $show->field('total', __('Total'))->as(function ($t){
+            $items = Order::where('id', $this->id)->get();
+            $totalPrice = 0;
+            foreach($items as $item){
+                foreach($item->order_product_list as $list){
+                    $totalPrice += $list['product_info']->regular_price * $list['qty'];
+                }
+            }
+
+            return 'RM'.$totalPrice;
+        });
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -104,6 +120,13 @@ class OrderController extends AdminController
         });
         $form->display('total', __('Total(RM)'))->default($totalPrice);
         $form->select('order_status', __('Order status'))->options(Order::$code_to_status);
+
+
+        $form->saved(function (Form $form) {
+            $uid = $form->model()->user_id;
+            $orderStatus = $uid;
+            Session::put('orderStatus', $orderStatus);
+        });
 
         return $form;
     }
