@@ -28,9 +28,9 @@ class Order extends Model
         $orders = $this->order_products()->get();
         $data = [];
         if($orders->count() != 0){
-            foreach($orders as $order){
-                $data['product_info'] = WpProduct::where('id', $order->product_id)->first();
-                $data['qty'] = $order->quantity;
+            foreach($orders as $key => $order){
+                $data[$key]['product_info'] = WpProduct::where('id', $order->product_id)->first();
+                $data[$key]['qty'] = $order->quantity;
             }
         }
         return $data;
