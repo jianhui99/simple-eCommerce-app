@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => '/',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-02-11 02:19:47',
+                'updated_at' => NULL,
             ),
             1 =>
             array (
@@ -38,7 +39,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => '',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-07-08 17:37:25',
+                'updated_at' => NULL,
             ),
             2 =>
             array (
@@ -50,7 +51,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => 'auth/users',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-07-08 17:37:25',
+                'updated_at' => NULL,
             ),
             3 =>
             array (
@@ -62,7 +63,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => 'auth/roles',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-07-08 17:37:25',
+                'updated_at' => NULL,
             ),
             4 =>
             array (
@@ -74,7 +75,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => 'auth/permissions',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-07-08 17:37:25',
+                'updated_at' => NULL,
             ),
             5 =>
             array (
@@ -86,7 +87,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => 'auth/menu',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-07-08 17:37:25',
+                'updated_at' => NULL,
             ),
             6 =>
             array (
@@ -98,7 +99,7 @@ class AdminMenuTableSeeder extends Seeder
                 'uri' => 'auth/logs',
                 'permission' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2021-07-08 17:37:25',
+                'updated_at' => NULL,
             ),
             7 =>
             array (
@@ -109,8 +110,8 @@ class AdminMenuTableSeeder extends Seeder
                 'icon' => 'fa-product-hunt',
                 'uri' => '/wp-products',
                 'permission' => NULL,
-                'created_at' => '2021-01-29 21:52:18',
-                'updated_at' => '2021-06-26 01:28:48',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
             8 =>
             array (
@@ -121,8 +122,8 @@ class AdminMenuTableSeeder extends Seeder
                 'icon' => 'fa-reorder',
                 'uri' => '/order',
                 'permission' => NULL,
-                'created_at' => '2021-01-29 21:52:40',
-                'updated_at' => '2021-06-26 01:28:48',
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
         ));
 

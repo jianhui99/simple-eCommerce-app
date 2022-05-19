@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -22,8 +23,8 @@ class AdminRolesTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Administrator',
                 'slug' => 'administrator',
-                'created_at' => '2021-01-13 09:29:54',
-                'updated_at' => '2021-01-13 09:29:54',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ),
         ));
 

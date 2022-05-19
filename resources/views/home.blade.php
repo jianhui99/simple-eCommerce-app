@@ -6,7 +6,7 @@
             <div class="d-flex justify-content-center row">
                 <div class="col-md-10">
                     <div class="row p-2 bg-white border rounded">
-                        <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="{{ $product->product_image_list[0]->src }}"></div>
+                        <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="{{ isset($product->product_image_list[0]->src) ? $product->product_image_list[0]->src : '' }}"></div>
                         <div class="col-md-6 mt-1">
                             <h5> {{ $product->product_name }} </h5>
                             @if($product->in_stock)
